@@ -32,7 +32,6 @@ pipeline {
 						, userRemoteConfigs: [[credentialsId: 'GitHub_ricardo-cardona', url: 'https://github.com/ricardo-cardona/CeibaEstacionamiento']]
 					]
 				)
-				sh 'gradle --b ./build.gradle compileJava'
 			}
 		}
 		stage('Unit Tests') {
