@@ -3,19 +3,19 @@ pipeline {
 	agent {
 		label 'Slave_Induccion'
 	}
-	//Opciones especÃ­ficas de Pipeline dentro del Pipeline
+	//Opciones específicas de Pipeline dentro del Pipeline
 	options {
-		//Mantener artefactos y salida de consola para el # especÃ­fico de ejecuciones recientes del Pipeline.
+		//Mantener artefactos y salida de consola para el # específico de ejecuciones recientes del Pipeline.
 		buildDiscarder(logRotator(numToKeepStr: '3'))
 		//No permitir ejecuciones concurrentes de Pipeline
 		disableConcurrentBuilds()
 	}
-	//Una secciÃ³n que define las herramientas para â€œautoinstalarâ€� y poner en la PATH
+	//Una sección que define las herramientas para "autoinstalar" y poner en la PATH
 	tools {
-		jdk 'JDK8_Centos' //Preinstalada en la ConfiguraciÃ³n del Master
-		gradle 'Gradle4.5_Centos' //Preinstalada en la ConfiguraciÃ³n del Master
+		jdk 'JDK8_Centos' //Preinstalada en la Configuración del Master
+		gradle 'Gradle4.5_Centos' //Preinstalada en la Configuración del Master
 	}
-	//AquÃ­ comienzan los â€œitemsâ€� del Pipeline
+	//Aquí comienzan los "items" del Pipeline
 	stages{
 		stage('Checkout') {
 			steps{
@@ -46,7 +46,7 @@ pipeline {
 		}
 		stage('Static Code Analysis') {
 			steps{
-				echo '------------>AnÃ¡lisis de cÃ³digo estÃ¡tico<------------'
+				echo '------------>Análisis de código estático<------------'
 				withSonarQubeEnv('Sonar') {
 					sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -D project.settings=sonar-project.properties"
 				}
@@ -55,7 +55,7 @@ pipeline {
 		stage('Build') {
 			steps {
 				echo "------------>Build<------------"
-				//Construir sin tarea test que se ejecutÃ³ previamente
+				//Construir sin tarea test que se ejecutó previamente
 				sh 'gradle --b ./build.gradle build -x test'
 			}
 		}
@@ -67,6 +67,7 @@ pipeline {
 		success {
 			echo 'This will run only if successful'
 			//junit '**/build/test-results/test/*.xml'
+			junit '**/build/jacoco/test-results/*.xml'
 		}
 		failure {
 			echo 'This will run only if failed'
