@@ -12,7 +12,7 @@ public interface VehiculoRepositorio extends JpaRepository<VehiculoEntity, Long>
 	
 	VehiculoEntity findByPlaca(String placa);
 	
-	@Query(nativeQuery = true, value = "SELECT V.* FROM VEHICULO V INNER JOIN INGRESOPARQUEADERO I ON V.ID_VEHICULO = I.ID_VEHICULO WHERE V.PLACA = :PLACA AND FECHA_FIN IS NULL")
+	@Query(nativeQuery = true, value = "SELECT V.* FROM VEHICULO V INNER JOIN INGRESO_PARQUEADERO I ON V.ID_VEHICULO = I.ID_VEHICULO WHERE V.PLACA = :PLACA AND FECHA_FIN IS NULL")
 	public VehiculoEntity vehiculoEstaEnParqueadero(@Param(value = "PLACA") String placa);
 	
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import parqueadero.parqueadero.persistencia.entidad.IngresoParqueaderoEntity;
+import parqueadero.parqueadero.persistencia.entidad.VehiculoEnParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.servicio.IngresoParqueaderoServicio;
 
@@ -38,6 +39,13 @@ public class IngresoParqueaderoControlador {
 		} else {
 			return ResponseEntity.ok().body(ingresoRegistrado);
 		}
+		
+	}
+	
+	@GetMapping("/parqueados")
+	public List<VehiculoEnParqueaderoEntity> consultarVehiculosEnParqueadero() {
+		
+		return ingresoParqueaderoServicio.consultarVehiculosEnParqueadero();
 		
 	}
 	

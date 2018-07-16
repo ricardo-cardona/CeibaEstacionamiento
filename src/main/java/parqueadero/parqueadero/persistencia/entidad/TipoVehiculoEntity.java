@@ -1,17 +1,53 @@
-package parqueadero.parqueadero.dominio;
+package parqueadero.parqueadero.persistencia.entidad;
 
-public class TipoVehiculo {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TipoVehiculo")
+public class TipoVehiculoEntity {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_TIPO_VEHICULO", nullable = false)
+	private Long id;
+	
+	@Column(name = "NOMBRE", nullable = false)
 	private String nombre;
+	
+	@Column(name = "CAPACIDAD_MAXIMA", nullable = false)
 	private int capacidadMaxima;
+	
+	@Column(name = "VALOR_HORA", nullable = false)
 	private double valorHora;
+	
+	@Column(name = "VALOR_DIA", nullable = false)
 	private double valorDia;
+	
+	@Column(name = "TIENE_CILINDRAJE", nullable = false)
 	private boolean tieneCilindraje;
+	
+	@Column(name = "ALTO_CILINDRAJE", nullable = false)
 	private int altoCilindraje;
+	
+	@Column(name = "VALOR_ADICIONAL_CILINDRAJE", nullable = false)
 	private double valorAdicionalCilindraje;
 	
-	public TipoVehiculo(String nombre, int capacidadMaxima, double valorHora, double valorDia, boolean tieneCilindraje,
+	public TipoVehiculoEntity() {
+		super();
+	}
+	
+	public TipoVehiculoEntity(Long id) {
+		this.id = id;
+	}
+	
+	public TipoVehiculoEntity(Long id, String nombre, int capacidadMaxima, double valorHora, double valorDia, boolean tieneCilindraje, 
 			int altoCilindraje, double valorAdicionalCilindraje) {
+		this.id = id;
 		this.nombre = nombre;
 		this.capacidadMaxima = capacidadMaxima;
 		this.valorHora = valorHora;
@@ -19,6 +55,14 @@ public class TipoVehiculo {
 		this.tieneCilindraje = tieneCilindraje;
 		this.altoCilindraje = altoCilindraje;
 		this.valorAdicionalCilindraje = valorAdicionalCilindraje;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNombre() {

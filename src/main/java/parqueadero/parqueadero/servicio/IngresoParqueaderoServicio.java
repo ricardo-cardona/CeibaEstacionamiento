@@ -6,12 +6,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import parqueadero.parqueadero.dominio.Parqueadero;
 import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
+import parqueadero.parqueadero.excepcion.SalidaParqueaderoExcepcion;
 import parqueadero.parqueadero.persistencia.entidad.IngresoParqueaderoEntity;
+import parqueadero.parqueadero.persistencia.entidad.TipoVehiculoEntity;
+import parqueadero.parqueadero.persistencia.entidad.VehiculoEnParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.persistencia.repositorio.IngresoParqueaderoRepositorio;
+import parqueadero.parqueadero.persistencia.repositorio.VehiculoEnParqueaderoRepositorio;
 
 @Service
 public class IngresoParqueaderoServicio {
@@ -20,13 +23,21 @@ public class IngresoParqueaderoServicio {
 	private IngresoParqueaderoRepositorio ingresoParqueaderoRepositorio;
 	
 	@Autowired
+	private VehiculoEnParqueaderoRepositorio vehiculoEnParqueaderoRepositorio;
+	
+	@Autowired
 	private VehiculoServicio vehiculoServicio;
+	
+	@Autowired
+	private TipoVehiculoServicio tipoVehiculoServicio;
 	
 	public IngresoParqueaderoEntity registrarIngresoVehiculo(VehiculoEntity vehiculo) {
 		
 		IngresoParqueaderoEntity ingreso = null;
 		
 		Calendar fechaActual = Calendar.getInstance();
+		
+		vehiculo.setTipoVehiculo(consultarTipoVehiculo(vehiculo.getTipoVehiculo()));
 		
 		verificarReglas(vehiculo);
 		
@@ -61,20 +72,84 @@ public class IngresoParqueaderoServicio {
 		
 	}
 	
-	public IngresoParqueaderoEntity registrarSalidaParqueadero(IngresoParqueaderoEntity ingresoParqueadero) {
+	public List<VehiculoEnParqueaderoEntity> consultarVehiculosEnParqueadero() {
 		
-		ingresoParqueadero.setFechaFin(Calendar.getInstance());
-		ingresoParqueadero.setValor(9999); //aquí se debe usar el método encargado de calcular el valor a pagar
-		ingresoParqueadero = ingresoParqueaderoRepositorio.save(ingresoParqueadero);
-		
-		return ingresoParqueadero;
+		return vehiculoEnParqueaderoRepositorio.vehiculosEnParqueadero();
 		
 	}
 	
-	private boolean parqueaderoEstaLleno(String tipoVehiculo) {
+	public IngresoParqueaderoEntity registrarSalidaParqueadero(IngresoParqueaderoEntity ingreso) {
 		
-		return (ingresoParqueaderoRepositorio.cantidadTipoVehiculoEnParqueadero(tipoVehiculo) 
-				>= cantidadMaximaTipoVehiculo(tipoVehiculo));
+		if (ingreso.getFechaFin() != null) {
+			throw new SalidaParqueaderoExcepcion("Esta salida de parqueadero ya había sido registrada.");
+		}
+		
+		ingreso.setFechaFin(Calendar.getInstance());
+		ingreso.setValor(calcularValorAPagar(ingreso));
+		ingreso = ingresoParqueaderoRepositorio.save(ingreso);
+		
+		return ingreso;
+		
+	}
+	
+	private double calcularValorAPagar(IngresoParqueaderoEntity ingreso){
+		
+		double valor;
+		double diferenciaEnHoras;
+		
+		// calcular la diferencia en horas entre las fechas de inicio y fin (incluir decimales)
+		diferenciaEnHoras = diferenciaFechasEnHoras(ingreso.getFechaInicio(), ingreso.getFechaFin());
+		
+		// de acuerdo a la cantidad de horas, establecer la forma de cobro (por horas o por días)
+		valor = valorACobrar(diferenciaEnHoras, ingreso.getVehiculo().getTipoVehiculo().getValorDia(), ingreso.getVehiculo().getTipoVehiculo().getValorHora());
+		
+		// si se trata de una moto con alto cilindraje, sumar el valor adicional a cobrar
+		if (esAltoCilindraje(ingreso.getVehiculo())) {
+			valor = valor + ingreso.getVehiculo().getTipoVehiculo().getValorAdicionalCilindraje();
+		}
+		
+		return valor;
+		
+	}
+	
+	private double diferenciaFechasEnHoras(Calendar fechaInicial, Calendar fechaFinal) {
+		
+		Long diferenciaEnMilisegundos = fechaFinal.getTimeInMillis() - fechaInicial.getTimeInMillis();
+		
+		return diferenciaEnMilisegundos / (1000.0 * 60 * 60);
+		
+	}
+	
+	private double valorACobrar(double horas, double valorDia, double valorHora) {
+		
+		double dias = horas / 24;
+		
+		double valor = Math.floor(dias) * valorDia;
+		
+		horas = horas % 24;
+		horas = Math.floor(horas) + Math.ceil(horas % 1);
+		
+		if (horas >= 9) {
+			valor = valor + valorDia;
+		} else {
+			valor = valor + (horas * valorHora);
+		}
+		
+		return valor;
+		
+	}
+	
+	private boolean esAltoCilindraje(VehiculoEntity vehiculo) {
+		
+		return (vehiculo.getTipoVehiculo().getTieneCilindraje()
+				&& vehiculo.getCilindraje() > vehiculo.getTipoVehiculo().getAltoCilindraje());
+		
+	}
+	
+	private boolean parqueaderoEstaLleno(TipoVehiculoEntity tipoVehiculo) {
+		
+		return (ingresoParqueaderoRepositorio.cantidadTipoVehiculoEnParqueadero(tipoVehiculo.getId())
+				>= tipoVehiculo.getCapacidadMaxima());
 		
 	}
 	
@@ -117,17 +192,32 @@ public class IngresoParqueaderoServicio {
 		
 	}
 	
-	private boolean cambioTipoVehiculo(VehiculoEntity vehiculo, String tipoVehiculo) {
+	private boolean cambioTipoVehiculo(VehiculoEntity vehiculo, TipoVehiculoEntity tipoVehiculo) {
 		
-		return (!vehiculo.getTipoVehiculo().equalsIgnoreCase(tipoVehiculo));
+		return (vehiculo.getTipoVehiculo() != tipoVehiculo);
 		
 	}
 	
 	private boolean cilindrajeValidoSegunTipoVehiculo(VehiculoEntity vehiculo) {
 		
-		return ((vehiculo.getTipoVehiculo().equalsIgnoreCase("moto") && vehiculo.getCilindraje() > 0)
-				|| (vehiculo.getTipoVehiculo().equalsIgnoreCase("carro") && vehiculo.getCilindraje() == 0));
+		return ((vehiculo.getTipoVehiculo().getTieneCilindraje() && vehiculo.getCilindraje() > 0)
+				|| (!vehiculo.getTipoVehiculo().getTieneCilindraje() && vehiculo.getCilindraje() == 0));
 		
+	}
+	
+	private TipoVehiculoEntity consultarTipoVehiculo(TipoVehiculoEntity tipoVehiculo) {
+		
+		if (tipoVehiculo == null) {
+			throw new IngresoParqueaderoExcepcion("No se indicó tipo de vehículo.");
+		}
+		
+		tipoVehiculo = tipoVehiculoServicio.consultarTipoVehiculo(tipoVehiculo.getId());
+		
+		if (tipoVehiculo == null) {
+			throw new IngresoParqueaderoExcepcion("El tipo de vehículo indicado es incorrecto.");
+		}
+		
+		return tipoVehiculo;
 	}
 	
 	public void verificarReglas(VehiculoEntity vehiculo) {

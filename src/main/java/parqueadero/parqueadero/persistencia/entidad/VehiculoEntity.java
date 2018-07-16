@@ -2,10 +2,18 @@ package parqueadero.parqueadero.persistencia.entidad;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "VEHICULO")
@@ -19,8 +27,12 @@ public class VehiculoEntity {
 	@Column(name = "PLACA", unique = true, nullable = false)
 	private String placa;
 	
-	@Column(name = "TIPO_VEHICULO", nullable = false)
-	private String tipoVehiculo;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_TIPO_VEHICULO", nullable = false)
+	//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+	//@JsonIdentityReference(alwaysAsId=true)
+	//@JsonProperty("tipoVehiculo")
+	private TipoVehiculoEntity tipoVehiculo;
 	
 	@Column(name = "CILINDRAJE", nullable = true)
 	private int cilindraje;
@@ -29,7 +41,7 @@ public class VehiculoEntity {
 		super();
 	}
 
-	public VehiculoEntity(int id, String tipoVehiculo, String placa, int cilindraje) {
+	public VehiculoEntity(int id, TipoVehiculoEntity tipoVehiculo, String placa, int cilindraje) {
 		this.id = id;
 		this.tipoVehiculo = tipoVehiculo;
 		this.placa = placa;
@@ -44,11 +56,11 @@ public class VehiculoEntity {
 		this.id = id;
 	}
 
-	public String getTipoVehiculo() {
+	public TipoVehiculoEntity getTipoVehiculo() {
 		return tipoVehiculo;
 	}
 
-	public void setTipoVehiculo(String tipoVehiculo) {
+	public void setTipoVehiculo(TipoVehiculoEntity tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
 	}
 

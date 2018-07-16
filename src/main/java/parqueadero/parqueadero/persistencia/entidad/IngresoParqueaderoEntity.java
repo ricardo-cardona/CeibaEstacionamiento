@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@Table(name = "INGRESOPARQUEADERO")
+@Table(name = "INGRESO_PARQUEADERO")
 public class IngresoParqueaderoEntity {
 	
 	@Id
@@ -29,7 +29,7 @@ public class IngresoParqueaderoEntity {
 	@JoinColumn(name = "ID_VEHICULO", nullable = false)
 	@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 	@JsonIdentityReference(alwaysAsId=true)
-	@JsonProperty("id_vehiculo")
+	@JsonProperty("idVehiculo")
 	private VehiculoEntity vehiculo;
 	
 	@Column(name = "FECHA_INICIO", nullable = true)
