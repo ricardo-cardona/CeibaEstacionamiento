@@ -45,8 +45,7 @@ public class IngresoParqueaderoEntity {
 		super();
 	}
 
-	public IngresoParqueaderoEntity(Long id, VehiculoEntity vehiculo, Calendar fechaInicio, Calendar fechaFin, double valor) {
-		this.id = id;
+	public IngresoParqueaderoEntity(VehiculoEntity vehiculo, Calendar fechaInicio, Calendar fechaFin, double valor) {
 		this.vehiculo = vehiculo;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;

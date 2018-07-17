@@ -45,9 +45,8 @@ public class TipoVehiculoEntity {
 		this.id = id;
 	}
 	
-	public TipoVehiculoEntity(Long id, String nombre, int capacidadMaxima, double valorHora, double valorDia, boolean tieneCilindraje, 
+	public TipoVehiculoEntity(String nombre, int capacidadMaxima, double valorHora, double valorDia, boolean tieneCilindraje, 
 			int altoCilindraje, double valorAdicionalCilindraje) {
-		this.id = id;
 		this.nombre = nombre;
 		this.capacidadMaxima = capacidadMaxima;
 		this.valorHora = valorHora;

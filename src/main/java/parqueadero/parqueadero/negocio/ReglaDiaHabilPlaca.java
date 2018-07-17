@@ -7,7 +7,7 @@ import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 
 public class ReglaDiaHabilPlaca implements ReglaNegocio {
 	
-	private static final String DIA_NO_HABIL_PLACA = "- El vehículo no puede ingresar al parqueadero, debido a que no es un día hábil.";
+	private static final String DIA_NO_HABIL_PLACA = "El vehículo no puede ingresar al parqueadero, debido a que no es un día hábil.";
 	
 	public boolean verificarRegla(Vehiculo vehiculo) {
 		

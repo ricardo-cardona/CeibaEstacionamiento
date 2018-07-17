@@ -2,8 +2,13 @@ package parqueadero.parqueadero.persistencia.entidad;
 
 import java.util.Calendar;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class VehiculoEnParqueaderoEntity {
 	
+	@Id
 	private String placa;
 	private String tipo;
 	private Calendar fechaIngreso;

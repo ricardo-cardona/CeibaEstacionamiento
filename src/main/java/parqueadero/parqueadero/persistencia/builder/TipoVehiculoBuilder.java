@@ -16,7 +16,8 @@ public class TipoVehiculoBuilder {
 		}
 		
 		return new TipoVehiculo(
-				tipoVehiculo.getNombre()
+				  tipoVehiculo.getId()
+				, tipoVehiculo.getNombre()
 				, tipoVehiculo.getCapacidadMaxima()
 				, tipoVehiculo.getValorHora()
 				, tipoVehiculo.getValorDia()
@@ -24,6 +25,28 @@ public class TipoVehiculoBuilder {
 				, tipoVehiculo.getAltoCilindraje()
 				, tipoVehiculo.getValorAdicionalCilindraje()
 		);
+		
+	}
+	
+	public static TipoVehiculoEntity convertirAEntity(TipoVehiculo tipoVehiculo) {
+		
+		if (tipoVehiculo == null) {
+			return null;
+		}
+		
+		TipoVehiculoEntity tipoVehiculoEntity = new TipoVehiculoEntity(
+				  tipoVehiculo.getNombre()
+				, tipoVehiculo.getCapacidadMaxima()
+				, tipoVehiculo.getValorHora()
+				, tipoVehiculo.getValorDia()
+				, tipoVehiculo.getTieneCilindraje()
+				, tipoVehiculo.getAltoCilindraje()
+				, tipoVehiculo.getValorAdicionalCilindraje()
+		);
+		
+		tipoVehiculoEntity.setId(tipoVehiculo.getId());
+		
+		return tipoVehiculoEntity;
 		
 	}
 	

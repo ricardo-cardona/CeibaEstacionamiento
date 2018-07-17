@@ -22,13 +22,6 @@ public class IngresoParqueaderoControlador {
 	@Autowired
 	private IngresoParqueaderoServicio ingresoParqueaderoServicio;
 	
-	@GetMapping("/ingresos")
-	public List<IngresoParqueaderoEntity> consultarIngresos() {
-		
-		return ingresoParqueaderoServicio.consultarIngresos();
-		
-	}
-	
 	@PostMapping("/ingresos")
 	public ResponseEntity<Object> registrarIngresoVehiculo(@RequestBody VehiculoEntity vehiculo) {
 		
@@ -50,18 +43,16 @@ public class IngresoParqueaderoControlador {
 	}
 	
 	@PutMapping("/salidas/{ingreso}")
-	public void registrarSalidaParqueadero(@PathVariable Long ingreso) {
+	public ResponseEntity<Object> registrarSalidaParqueadero(@PathVariable Long ingreso) {
 		
 		IngresoParqueaderoEntity ingresoRegistrado = ingresoParqueaderoServicio.consultarIngreso(ingreso);
 		ingresoParqueaderoServicio.registrarSalidaParqueadero(ingresoRegistrado);
 		
-		/*
 		if (ingresoRegistrado == null) {
 			return ResponseEntity.badRequest().header("Error", "10").body(ingresoRegistrado);
 		} else {
 			return ResponseEntity.ok().body(ingresoRegistrado);
 		}
-		*/
 		
 	}
 	

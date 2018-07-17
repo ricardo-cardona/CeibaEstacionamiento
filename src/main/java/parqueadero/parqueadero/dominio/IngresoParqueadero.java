@@ -1,15 +1,15 @@
 package parqueadero.parqueadero.dominio;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class IngresoParqueadero {
 	
 	private Vehiculo vehiculo;
-	private Date fechaInicio;
-	private Date fechaFin;
+	private Calendar fechaInicio;
+	private Calendar fechaFin;
 	private double valor;
 	
-	public IngresoParqueadero(Vehiculo vehiculo, Date fechaInicio, Date fechaFin, double valor) {
+	public IngresoParqueadero(Vehiculo vehiculo, Calendar fechaInicio, Calendar fechaFin, double valor) {
 		this.vehiculo = vehiculo;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -24,19 +24,19 @@ public class IngresoParqueadero {
 		this.vehiculo = vehiculo;
 	}
 
-	public Date getFechaInicio() {
+	public Calendar getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(Calendar fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
-	public Date getFechaFin() {
+	public Calendar getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(Calendar fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 

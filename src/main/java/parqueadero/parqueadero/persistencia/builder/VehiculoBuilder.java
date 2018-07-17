@@ -23,4 +23,18 @@ public class VehiculoBuilder {
 		
 	}
 	
+	public static VehiculoEntity convertirAEntity(Vehiculo vehiculo) {
+		
+		if (vehiculo == null) {
+			return null;
+		}
+		
+		return new VehiculoEntity(
+			  TipoVehiculoBuilder.convertirAEntity(vehiculo.getTipoVehiculo())
+			, vehiculo.getPlaca()
+			, vehiculo.getCilindraje()
+		);
+		
+	}
+	
 }
