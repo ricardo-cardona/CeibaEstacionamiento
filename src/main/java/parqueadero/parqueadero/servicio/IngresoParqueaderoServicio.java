@@ -162,7 +162,7 @@ public class IngresoParqueaderoServicio {
 		List<ReglaNegocio> reglas = new ArrayList<>();
 		
 		reglas.add(new ReglaCilindraje());
-		reglas.add(new ReglaDiaHabilPlaca());
+		reglas.add(new ReglaDiaHabilPlaca(Calendar.getInstance()));
 		reglas.add(new ReglaCambioAtributosVehiculo(vehiculoServicio));
 		reglas.add(new ReglaVehiculoEnParqueadero(vehiculoServicio));
 		reglas.add(new ReglaParqueaderoLleno(ingresoParqueaderoRepositorio));

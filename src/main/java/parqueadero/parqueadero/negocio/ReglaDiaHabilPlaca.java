@@ -8,11 +8,16 @@ import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 public class ReglaDiaHabilPlaca implements ReglaNegocio {
 	
 	private static final String DIA_NO_HABIL_PLACA = "El vehículo no puede ingresar al parqueadero, debido a que no es un día hábil.";
+	private Calendar fecha;
+	
+	public ReglaDiaHabilPlaca(Calendar fecha) {
+		this.fecha = fecha;
+	}
 	
 	public boolean verificarRegla(Vehiculo vehiculo) {
 		
 		if (vehiculo.getPlaca().toUpperCase().startsWith("A")) {
-			int diaSemana = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+			int diaSemana = fecha.get(Calendar.DAY_OF_WEEK);
 			return (diaSemana == Calendar.SUNDAY || diaSemana == Calendar.MONDAY);
 		}
 		
