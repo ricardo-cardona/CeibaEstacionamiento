@@ -7,7 +7,7 @@ import parqueadero.parqueadero.servicio.VehiculoServicio;
 
 public class ReglaVehiculoEnParqueadero implements ReglaNegocio {
 	
-	private static final String VEHICULO_YA_EN_PARQUEADERO = "El vehículo ya se encuentra en el parqueadero.";
+	private static final String VEHICULO_YA_ESTA_EN_PARQUEADERO = "El vehículo ya se encuentra en el parqueadero.";
 	private VehiculoServicio vehiculoServicio;
 	
 	public ReglaVehiculoEnParqueadero(VehiculoServicio vehiculoServicio) {
@@ -23,7 +23,7 @@ public class ReglaVehiculoEnParqueadero implements ReglaNegocio {
 	}
 	
 	public void mostrarMensaje() {
-		throw new IngresoParqueaderoExcepcion(VEHICULO_YA_EN_PARQUEADERO);
+		throw new IngresoParqueaderoExcepcion(VEHICULO_YA_ESTA_EN_PARQUEADERO);
 	}
 
 }

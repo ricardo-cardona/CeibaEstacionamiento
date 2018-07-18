@@ -10,7 +10,10 @@ import testdatabuilder.TipoVehiculoTestDataBuilder;
 import testdatabuilder.VehiculoTestDataBuilder;
 
 public class ReglaCilindrajeTest {
-
+	
+	private static final int CON_CILINDRAJE = 100;
+	private static final int SIN_CILINDRAJE = 0;
+	
 	@Test
 	public void VehiculoSinCilindrajeTipoVehiculoNoRequiereCilindrajeTest() {
 		
@@ -20,7 +23,7 @@ public class ReglaCilindrajeTest {
 				.build();
 		
 		Vehiculo vehiculo = new VehiculoTestDataBuilder()
-				.conCilindraje(0)
+				.conCilindraje(SIN_CILINDRAJE)
 				.conTipoVehiculo(tipoVehiculo)
 				.build();
 		
@@ -43,7 +46,7 @@ public class ReglaCilindrajeTest {
 				.build();
 		
 		Vehiculo vehiculo = new VehiculoTestDataBuilder()
-				.conCilindraje(100)
+				.conCilindraje(CON_CILINDRAJE)
 				.conTipoVehiculo(tipoVehiculo)
 				.build();
 		
@@ -66,7 +69,7 @@ public class ReglaCilindrajeTest {
 				.build();
 		
 		Vehiculo vehiculo = new VehiculoTestDataBuilder()
-				.conCilindraje(100)
+				.conCilindraje(CON_CILINDRAJE)
 				.conTipoVehiculo(tipoVehiculo)
 				.build();
 		
@@ -89,7 +92,7 @@ public class ReglaCilindrajeTest {
 				.build();
 		
 		Vehiculo vehiculo = new VehiculoTestDataBuilder()
-				.conCilindraje(0)
+				.conCilindraje(SIN_CILINDRAJE)
 				.conTipoVehiculo(tipoVehiculo)
 				.build();
 		
