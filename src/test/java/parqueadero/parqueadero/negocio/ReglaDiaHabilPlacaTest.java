@@ -68,7 +68,7 @@ public class ReglaDiaHabilPlacaTest {
 		
 		Calendar calendar = Calendar.getInstance();
 		
-		calendar.set(2018, Calendar.JULY, 18, 0, 0, 0); // 2018/07/18 (Miércoles)
+		calendar.set(2018, Calendar.JULY, 18, 0, 0, 0); // 2018/07/18 (Miercoles)
 		
 		ReglaDiaHabilPlaca regla = new ReglaDiaHabilPlaca(calendar);
 		
