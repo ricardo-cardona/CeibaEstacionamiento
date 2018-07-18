@@ -45,6 +45,20 @@ public class VehiculoBuilderTest {
 	}
 	
 	@Test
+	public void convertirADominioNullTest() {
+		
+		//arrange
+		VehiculoEntity vehiculoEntity = null;
+		
+		//act
+		Vehiculo vehiculo = VehiculoBuilder.convertirADominio(vehiculoEntity);
+		
+		//assert
+		assertNull(vehiculo);
+		
+	}
+	
+	@Test
 	public void convertirAEntityTest() {
 		
 		//arrange
@@ -65,6 +79,20 @@ public class VehiculoBuilderTest {
 		assertEquals(vehiculo.getPlaca(), vehiculoEntity.getPlaca());
 		assertEquals(vehiculo.getTipoVehiculo().getId(), vehiculoEntity.getTipoVehiculo().getId());
 		assertEquals(vehiculo.getCilindraje(), vehiculoEntity.getCilindraje());
+		
+	}
+	
+	@Test
+	public void convertirAEntityNullTest() {
+		
+		//arrange
+		Vehiculo vehiculo = null;
+		
+		//act
+		VehiculoEntity vehiculoEntity = VehiculoBuilder.convertirAEntity(vehiculo);
+		
+		//assert
+		assertNull(vehiculoEntity);
 		
 	}
 

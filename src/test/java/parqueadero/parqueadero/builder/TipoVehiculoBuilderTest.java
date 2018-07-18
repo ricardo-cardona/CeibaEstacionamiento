@@ -54,6 +54,20 @@ public class TipoVehiculoBuilderTest {
 	}
 	
 	@Test
+	public void convertirADominioNullTest() {
+		
+		//arrange
+		TipoVehiculoEntity tipoVehiculoEntity = null;
+		
+		//act
+		TipoVehiculo tipoVehiculo = TipoVehiculoBuilder.convertirADominio(tipoVehiculoEntity);
+		
+		//assert
+		assertNull(tipoVehiculo);
+		
+	}
+	
+	@Test
 	public void convertirAEntityTest() {
 		
 		//arrange
@@ -80,6 +94,20 @@ public class TipoVehiculoBuilderTest {
 		assertEquals(tipoVehiculo.getTieneCilindraje(), tipoVehiculoEntity.getTieneCilindraje());
 		assertEquals(tipoVehiculo.getAltoCilindraje(), tipoVehiculoEntity.getAltoCilindraje());
 		assertEquals(tipoVehiculo.getValorAdicionalCilindraje(), tipoVehiculoEntity.getValorAdicionalCilindraje(), DELTA);
+		
+	}
+	
+	@Test
+	public void convertirAEntityNullTest() {
+		
+		//arrange
+		TipoVehiculo tipoVehiculo = null;
+		
+		//act
+		TipoVehiculoEntity tipoVehiculoEntity = TipoVehiculoBuilder.convertirAEntity(tipoVehiculo);
+		
+		//assert
+		assertNull(tipoVehiculoEntity);
 		
 	}
 
