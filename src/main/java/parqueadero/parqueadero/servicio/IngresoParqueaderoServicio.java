@@ -38,9 +38,10 @@ public class IngresoParqueaderoServicio {
 	@Autowired
 	private TipoVehiculoServicio tipoVehiculoServicio;
 	
+	public static final String SIN_TIPO_VEHICULO = "No se indicó tipo de vehículo.";
+	public static final String TIPO_VEHICULO_INCORRECTO = "El tipo de vehículo indicado es incorrecto.";
+	
 	public IngresoParqueaderoEntity registrarIngresoVehiculo(VehiculoEntity vehiculo) {
-		
-		IngresoParqueaderoEntity ingreso = null;
 		
 		vehiculo.setTipoVehiculo(consultarTipoVehiculo(vehiculo.getTipoVehiculo()));
 		
@@ -48,12 +49,18 @@ public class IngresoParqueaderoServicio {
 		
 		vehiculo = vehiculoServicio.registrarVehiculo(vehiculo);
 		
-		ingreso = new IngresoParqueaderoEntity();
+		return guardarIngreso(vehiculo);
+		
+	}
+	
+	private IngresoParqueaderoEntity guardarIngreso(VehiculoEntity vehiculo) {
+		
+		IngresoParqueaderoEntity ingreso = new IngresoParqueaderoEntity();
+		
 		ingreso.setVehiculo(vehiculo);
 		ingreso.setFechaInicio(Calendar.getInstance());
-		ingreso = ingresoParqueaderoRepositorio.save(ingreso);
 		
-		return ingreso;
+		return ingresoParqueaderoRepositorio.save(ingreso);
 		
 	}
 	
@@ -145,13 +152,13 @@ public class IngresoParqueaderoServicio {
 	private TipoVehiculoEntity consultarTipoVehiculo(TipoVehiculoEntity tipoVehiculo) {
 		
 		if (tipoVehiculo == null) {
-			throw new IngresoParqueaderoExcepcion("No se indicó tipo de vehículo.");
+			throw new IngresoParqueaderoExcepcion(SIN_TIPO_VEHICULO);
 		}
 		
 		tipoVehiculo = tipoVehiculoServicio.consultarTipoVehiculo(tipoVehiculo.getId());
 		
 		if (tipoVehiculo == null) {
-			throw new IngresoParqueaderoExcepcion("El tipo de vehículo indicado es incorrecto.");
+			throw new IngresoParqueaderoExcepcion(TIPO_VEHICULO_INCORRECTO);
 		}
 		
 		return tipoVehiculo;
