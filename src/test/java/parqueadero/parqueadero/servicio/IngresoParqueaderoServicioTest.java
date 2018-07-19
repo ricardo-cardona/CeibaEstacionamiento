@@ -1,7 +1,10 @@
 package parqueadero.parqueadero.servicio;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,25 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-//import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 import parqueadero.parqueadero.persistencia.entidad.IngresoParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.TipoVehiculoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.persistencia.repositorio.IngresoParqueaderoRepositorio;
 import parqueadero.parqueadero.persistencia.repositorio.VehiculoEnParqueaderoRepositorio;
+import testdatabuilder.IngresoParqueaderoEntityTestDataBuilder;
 import testdatabuilder.TipoVehiculoEntityTestDataBuilder;
 import testdatabuilder.VehiculoEntityTestDataBuilder;
 
 @RunWith(SpringRunner.class)
-//@ContextConfiguration
 public class IngresoParqueaderoServicioTest {
 	
 	private static final int ID_VEHICULO = 1;
-	private static final Long ID_TIPO_VEHICULO_INVALIDO = -1L;
 	private static final Long ID_TIPO_VEHICULO_CARRO = 1L;
 	private static final String PLACA = "XYZ-789";
 	private static final int SIN_CILINDRAJE = 0;
@@ -56,55 +55,9 @@ public class IngresoParqueaderoServicioTest {
 	
     @MockBean
 	private TipoVehiculoServicio tipoVehiculoServicio;
-    
-	@Test
-	public void registrarIngresoSinTipoVehiculoTest() {
-		
-		//arrange
-		VehiculoEntity vehiculo = new VehiculoEntityTestDataBuilder()
-				.conId(ID_VEHICULO)
-				.conTipoVehiculo(null)
-				.build();
-		
-		//act
-		try {
-			ingresoParqueaderoServicio.registrarIngresoVehiculo(vehiculo);
-			fail();
-		} catch(IngresoParqueaderoExcepcion e) {
-			//assert
-			assertEquals(IngresoParqueaderoServicio.SIN_TIPO_VEHICULO, e.getMessage());
-		}
-		
-	}
 	
 	@Test
-	public void registrarIngresoConTipoVehiculoInvalidoTest() {
-		
-		//arrange
-		TipoVehiculoEntity tipoVehiculo = new TipoVehiculoEntityTestDataBuilder()
-				.conId(ID_TIPO_VEHICULO_INVALIDO)
-				.build();
-		
-		VehiculoEntity vehiculo = new VehiculoEntityTestDataBuilder()
-				.conId(ID_VEHICULO)
-				.conTipoVehiculo(tipoVehiculo)
-				.build();
-		
-		//act
-		try {
-			ingresoParqueaderoServicio.registrarIngresoVehiculo(vehiculo);
-			fail();
-		} catch(IngresoParqueaderoExcepcion e) {
-			//assert
-			assertEquals(IngresoParqueaderoServicio.TIPO_VEHICULO_INCORRECTO, e.getMessage());
-		}
-		
-	}
-	
-	/*@Test
-	//@Sql("data.sql")
-	@Sql(statements = {"INSERT INTO TIPO_VEHICULO (NOMBRE, CAPACIDAD_MAXIMA, VALOR_HORA, VALOR_DIA, TIENE_CILINDRAJE, ALTO_CILINDRAJE, VALOR_ADICIONAL_CILINDRAJE) VALUES ('CARRO', 20, 1000, 8000, FALSE, 0, 0);"})
-	public void registrarIngresoConTipoVehiculoValidoTest() {
+	public void registrarIngresoVehiculoValidoTest() {
 		
 		//arrange
 		TipoVehiculoEntity tipoVehiculo = new TipoVehiculoEntityTestDataBuilder()
@@ -126,9 +79,9 @@ public class IngresoParqueaderoServicioTest {
 				.conCilindraje(SIN_CILINDRAJE)
 				.build();
 		
+		when(tipoVehiculoServicio.consultarTipoVehiculo(vehiculo.getTipoVehiculo())).thenReturn(tipoVehiculo);
 		when(vehiculoServicio.registrarVehiculo(vehiculo)).thenReturn(vehiculoRegistrado);
-		
-		//when(ingresoParqueaderoRepositorio.save(ingreso)).thenReturn();
+		when(ingresoParqueaderoRepositorio.save(any())).thenReturn(new IngresoParqueaderoEntityTestDataBuilder().conVehiculo(vehiculoRegistrado).build());
 		
 		//act
 		IngresoParqueaderoEntity ingreso = ingresoParqueaderoServicio.registrarIngresoVehiculo(vehiculo);
@@ -137,6 +90,6 @@ public class IngresoParqueaderoServicioTest {
 		assertEquals(vehiculoRegistrado.getId(), ingreso.getVehiculo().getId());
 		assertNotNull(ingreso.getFechaInicio());
 		
-	}*/
+	}
 
 }

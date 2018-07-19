@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 import parqueadero.parqueadero.excepcion.SalidaParqueaderoExcepcion;
 import parqueadero.parqueadero.negocio.ReglaCambioAtributosVehiculo;
 import parqueadero.parqueadero.negocio.ReglaCilindraje;
@@ -17,7 +16,6 @@ import parqueadero.parqueadero.negocio.ReglaParqueaderoLleno;
 import parqueadero.parqueadero.negocio.ReglaVehiculoEnParqueadero;
 import parqueadero.parqueadero.persistencia.builder.VehiculoBuilder;
 import parqueadero.parqueadero.persistencia.entidad.IngresoParqueaderoEntity;
-import parqueadero.parqueadero.persistencia.entidad.TipoVehiculoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEnParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.persistencia.repositorio.IngresoParqueaderoRepositorio;
@@ -38,12 +36,9 @@ public class IngresoParqueaderoServicio {
 	@Autowired
 	private TipoVehiculoServicio tipoVehiculoServicio;
 	
-	public static final String SIN_TIPO_VEHICULO = "No se indicó tipo de vehículo.";
-	public static final String TIPO_VEHICULO_INCORRECTO = "El tipo de vehículo indicado es incorrecto.";
-	
 	public IngresoParqueaderoEntity registrarIngresoVehiculo(VehiculoEntity vehiculo) {
 		
-		vehiculo.setTipoVehiculo(consultarTipoVehiculo(vehiculo.getTipoVehiculo()));
+		vehiculo.setTipoVehiculo(tipoVehiculoServicio.consultarTipoVehiculo(vehiculo.getTipoVehiculo()));
 		
 		verificarReglas(vehiculo);
 		
@@ -147,21 +142,6 @@ public class IngresoParqueaderoServicio {
 		return (vehiculo.getTipoVehiculo().getTieneCilindraje()
 				&& vehiculo.getCilindraje() > vehiculo.getTipoVehiculo().getAltoCilindraje());
 		
-	}
-	
-	private TipoVehiculoEntity consultarTipoVehiculo(TipoVehiculoEntity tipoVehiculo) {
-		
-		if (tipoVehiculo == null) {
-			throw new IngresoParqueaderoExcepcion(SIN_TIPO_VEHICULO);
-		}
-		
-		tipoVehiculo = tipoVehiculoServicio.consultarTipoVehiculo(tipoVehiculo.getId());
-		
-		if (tipoVehiculo == null) {
-			throw new IngresoParqueaderoExcepcion(TIPO_VEHICULO_INCORRECTO);
-		}
-		
-		return tipoVehiculo;
 	}
 	
 	public void verificarReglas(VehiculoEntity vehiculo) {
