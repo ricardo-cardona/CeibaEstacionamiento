@@ -3,7 +3,7 @@ package parqueadero.parqueadero.persistencia.builder;
 import parqueadero.parqueadero.dominio.IngresoParqueadero;
 import parqueadero.parqueadero.persistencia.entidad.IngresoParqueaderoEntity;
 
-public class IngresoParqueaderoBuilder {
+public final class IngresoParqueaderoBuilder {
 	
 	private IngresoParqueaderoBuilder() {
 		

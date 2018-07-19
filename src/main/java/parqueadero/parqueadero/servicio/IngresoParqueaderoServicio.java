@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import parqueadero.parqueadero.dominio.Parqueadero;
 import parqueadero.parqueadero.excepcion.SalidaParqueaderoExcepcion;
 import parqueadero.parqueadero.negocio.ReglaCambioAtributosVehiculo;
 import parqueadero.parqueadero.negocio.ReglaCilindraje;
@@ -114,20 +116,20 @@ public class IngresoParqueaderoServicio {
 		
 		Long diferenciaEnMilisegundos = fechaFinal.getTimeInMillis() - fechaInicial.getTimeInMillis();
 		
-		return diferenciaEnMilisegundos / (1000.0 * 60 * 60);
+		return diferenciaEnMilisegundos / Parqueadero.UNA_HORA_EN_MILISEGUNDOS;
 		
 	}
 	
 	private double valorACobrar(double horas, double valorDia, double valorHora) {
 		
-		double dias = horas / 24;
+		double dias = horas / Parqueadero.CANTIDAD_MAXIMA_COBRO_DIA;
 		
 		double valor = Math.floor(dias) * valorDia;
 		
-		horas = horas % 24;
+		horas = horas % Parqueadero.CANTIDAD_MAXIMA_COBRO_DIA;
 		horas = Math.floor(horas) + Math.ceil(horas % 1);
 		
-		if (horas >= 9) {
+		if (horas >= Parqueadero.CANTIDAD_MAXIMA_COBRO_HORA) {
 			valor = valor + valorDia;
 		} else {
 			valor = valor + (horas * valorHora);
