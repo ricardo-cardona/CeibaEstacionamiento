@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 public class IngresoParqueadero {
 	
+	Long id;
 	private Vehiculo vehiculo;
 	private Calendar fechaInicio;
 	private Calendar fechaFin;
@@ -14,6 +15,14 @@ public class IngresoParqueadero {
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.valor = valor;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Vehiculo getVehiculo() {

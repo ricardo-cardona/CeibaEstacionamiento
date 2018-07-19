@@ -3,8 +3,17 @@ package parqueadero.parqueadero.servicio;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import parqueadero.parqueadero.persistencia.entidad.IngresoParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.TipoVehiculoEntity;
+import parqueadero.parqueadero.persistencia.entidad.VehiculoEnParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.persistencia.repositorio.IngresoParqueaderoRepositorio;
 import parqueadero.parqueadero.persistencia.repositorio.VehiculoEnParqueaderoRepositorio;
@@ -30,6 +40,7 @@ public class IngresoParqueaderoServicioTest {
 	private static final Long ID_TIPO_VEHICULO_CARRO = 1L;
 	private static final String PLACA = "XYZ-789";
 	private static final int SIN_CILINDRAJE = 0;
+	private static final Long ID_INGRESO_PARQUEADERO = 1L;
 	
 	@TestConfiguration
     static class IngresoParqueaderoServicioTestContextConfiguration {
@@ -89,6 +100,87 @@ public class IngresoParqueaderoServicioTest {
 		assertNotEquals(0L, ingreso.getId().longValue());
 		assertEquals(vehiculoRegistrado.getId(), ingreso.getVehiculo().getId());
 		assertNotNull(ingreso.getFechaInicio());
+		
+	}
+	
+	@Test
+	public void consultarVehiculosEnParqueaderoTest() {
+		
+		//arrange
+		List<VehiculoEnParqueaderoEntity> vehiculos = new ArrayList<>();
+		
+		vehiculos.add(new VehiculoEnParqueaderoEntity());
+		vehiculos.add(new VehiculoEnParqueaderoEntity());
+		
+		when(vehiculoEnParqueaderoRepositorio.vehiculosEnParqueadero()).thenReturn(vehiculos);
+		
+		//act
+		List<VehiculoEnParqueaderoEntity> vehiculosConsultados = ingresoParqueaderoServicio.consultarVehiculosEnParqueadero();
+		
+		//assert
+		assertEquals(vehiculos.size(), vehiculosConsultados.size());
+		assertEquals(vehiculos.get(0).getPlaca(), vehiculosConsultados.get(0).getPlaca());
+		assertEquals(vehiculos.get(1).getTipo(), vehiculosConsultados.get(1).getTipo());
+		
+	}
+	
+	@Test
+	public void consultarVehiculosEnParqueaderoNullTest() {
+		
+		//arrange
+		List<VehiculoEnParqueaderoEntity> vehiculos = new ArrayList<>();
+		
+		when(vehiculoEnParqueaderoRepositorio.vehiculosEnParqueadero()).thenReturn(vehiculos);
+		
+		//act
+		List<VehiculoEnParqueaderoEntity> vehiculosConsultados = ingresoParqueaderoServicio.consultarVehiculosEnParqueadero();
+		
+		//assert
+		assertTrue(vehiculosConsultados.isEmpty());
+		
+	}
+	
+	@Test
+	public void consultarIngresoExistenteTest() {
+		
+		//arrange
+		IngresoParqueaderoEntity ingreso = new IngresoParqueaderoEntityTestDataBuilder()
+				.conId(ID_INGRESO_PARQUEADERO)
+				.conFechaInicio(Calendar.getInstance())
+				.build();
+		
+		Optional<IngresoParqueaderoEntity> optIngreso = Optional.of(ingreso); 
+		
+		when(ingresoParqueaderoRepositorio.findById(anyLong())).thenReturn(optIngreso);
+		
+		//act
+		IngresoParqueaderoEntity ingresoConsultado = ingresoParqueaderoServicio.consultarIngreso(ingreso.getId());
+		
+		//assert
+		assertEquals(ingreso.getId(), ingresoConsultado.getId());
+		assertEquals(ingreso.getVehiculo().getPlaca(), ingresoConsultado.getVehiculo().getPlaca());
+		assertEquals(ingreso.getFechaInicio(), ingresoConsultado.getFechaInicio());
+		
+	}
+	
+	@Test
+	public void consultarIngresoNoExistenteTest() {
+		
+		//arrange
+		IngresoParqueaderoEntity ingreso = new IngresoParqueaderoEntityTestDataBuilder()
+				.conId(ID_INGRESO_PARQUEADERO)
+				.conFechaInicio(Calendar.getInstance())
+				.build();
+		
+		Optional<IngresoParqueaderoEntity> optIngreso = Optional.empty();
+		
+		when(ingresoParqueaderoRepositorio.findById(anyLong())).thenReturn(optIngreso);
+		
+		//act
+		IngresoParqueaderoEntity ingresoConsultado = ingresoParqueaderoServicio.consultarIngreso(ingreso.getId());
+		
+		//assert
+		assertNull(ingresoConsultado);
 		
 	}
 

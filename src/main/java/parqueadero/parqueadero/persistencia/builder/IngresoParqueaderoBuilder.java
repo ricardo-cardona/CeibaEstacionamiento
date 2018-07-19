@@ -9,18 +9,22 @@ public final class IngresoParqueaderoBuilder {
 		
 	}
 	
-	public static IngresoParqueadero convertirADominio(IngresoParqueaderoEntity ingreso) {
+	public static IngresoParqueadero convertirADominio(IngresoParqueaderoEntity ingresoEntity) {
 		
-		if (ingreso == null) {
+		if (ingresoEntity == null) {
 			return null;
 		}
 		
-		return new IngresoParqueadero(
-			VehiculoBuilder.convertirADominio(ingreso.getVehiculo())
-			, ingreso.getFechaInicio()
-			, ingreso.getFechaFin()
-			, ingreso.getValor()
+		IngresoParqueadero ingreso = new IngresoParqueadero(
+			  VehiculoBuilder.convertirADominio(ingresoEntity.getVehiculo())
+			, ingresoEntity.getFechaInicio()
+			, ingresoEntity.getFechaFin()
+			, ingresoEntity.getValor()
 		);
+		
+		ingreso.setId(ingresoEntity.getId());
+		
+		return ingreso;
 		
 	}
 	
@@ -30,12 +34,16 @@ public final class IngresoParqueaderoBuilder {
 			return null;
 		}
 		
-		return new IngresoParqueaderoEntity(
+		IngresoParqueaderoEntity ingresoEntity = new IngresoParqueaderoEntity(
 			  VehiculoBuilder.convertirAEntity(ingreso.getVehiculo())
 			, ingreso.getFechaInicio()
 			, ingreso.getFechaFin()
 			, ingreso.getValor()
 		);
+		
+		ingresoEntity.setId(ingreso.getId());
+		
+		return ingresoEntity;
 		
 	}
 

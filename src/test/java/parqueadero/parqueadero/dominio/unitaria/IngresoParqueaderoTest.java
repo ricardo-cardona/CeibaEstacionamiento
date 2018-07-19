@@ -13,6 +13,7 @@ import testdatabuilder.VehiculoTestDataBuilder;
 
 public class IngresoParqueaderoTest {
 	
+	private static final Long ID_INGRESO = 1L;
 	private static final double VALOR = 5000;
 	private static final double DELTA = 0.00001;
 
@@ -26,6 +27,7 @@ public class IngresoParqueaderoTest {
 		Calendar fechaFin = Calendar.getInstance();
 				
 		IngresoParqueaderoTestDataBuilder ingresoBuilder = new IngresoParqueaderoTestDataBuilder()
+				.conId(ID_INGRESO)
 				.conVehiculo(vehiculo)
 				.conFechaInicio(fechaInicio)
 				.conFechaFin(fechaFin)
@@ -35,6 +37,7 @@ public class IngresoParqueaderoTest {
 		IngresoParqueadero ingreso = ingresoBuilder.build();
 		
 		// assert
+		assertEquals(ID_INGRESO, ingreso.getId());
 		assertEquals(vehiculo.getPlaca(), ingreso.getVehiculo().getPlaca());
 		assertEquals(fechaInicio, ingreso.getFechaInicio());
 		assertEquals(fechaFin, ingreso.getFechaFin());

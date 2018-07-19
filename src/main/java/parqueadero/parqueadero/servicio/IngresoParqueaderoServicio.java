@@ -8,8 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import parqueadero.parqueadero.dominio.Parqueadero;
-import parqueadero.parqueadero.excepcion.SalidaParqueaderoExcepcion;
 import parqueadero.parqueadero.negocio.ReglaCambioAtributosVehiculo;
 import parqueadero.parqueadero.negocio.ReglaCilindraje;
 import parqueadero.parqueadero.negocio.ReglaDiaHabilPlaca;
@@ -78,71 +76,6 @@ public class IngresoParqueaderoServicio {
 	public List<VehiculoEnParqueaderoEntity> consultarVehiculosEnParqueadero() {
 		
 		return vehiculoEnParqueaderoRepositorio.vehiculosEnParqueadero();
-		
-	}
-	
-	public IngresoParqueaderoEntity registrarSalidaParqueadero(IngresoParqueaderoEntity ingreso) {
-		
-		if (ingreso.getFechaFin() != null) {
-			throw new SalidaParqueaderoExcepcion("Esta salida de parqueadero ya había sido registrada.");
-		}
-		
-		ingreso.setFechaFin(Calendar.getInstance());
-		ingreso.setValor(calcularValorAPagar(ingreso));
-		ingreso = ingresoParqueaderoRepositorio.save(ingreso);
-		
-		return ingreso;
-		
-	}
-	
-	private double calcularValorAPagar(IngresoParqueaderoEntity ingreso){
-		
-		double valor;
-		double diferenciaEnHoras;
-		
-		diferenciaEnHoras = diferenciaFechasEnHoras(ingreso.getFechaInicio(), ingreso.getFechaFin());
-		
-		valor = valorACobrar(diferenciaEnHoras, ingreso.getVehiculo().getTipoVehiculo().getValorDia(), ingreso.getVehiculo().getTipoVehiculo().getValorHora());
-		
-		if (esAltoCilindraje(ingreso.getVehiculo())) {
-			valor = valor + ingreso.getVehiculo().getTipoVehiculo().getValorAdicionalCilindraje();
-		}
-		
-		return valor;
-		
-	}
-	
-	private double diferenciaFechasEnHoras(Calendar fechaInicial, Calendar fechaFinal) {
-		
-		Long diferenciaEnMilisegundos = fechaFinal.getTimeInMillis() - fechaInicial.getTimeInMillis();
-		
-		return diferenciaEnMilisegundos / Parqueadero.UNA_HORA_EN_MILISEGUNDOS;
-		
-	}
-	
-	private double valorACobrar(double horas, double valorDia, double valorHora) {
-		
-		double dias = horas / Parqueadero.CANTIDAD_MAXIMA_COBRO_DIA;
-		
-		double valor = Math.floor(dias) * valorDia;
-		
-		horas = horas % Parqueadero.CANTIDAD_MAXIMA_COBRO_DIA;
-		horas = Math.floor(horas) + Math.ceil(horas % 1);
-		
-		if (horas >= Parqueadero.CANTIDAD_MAXIMA_COBRO_HORA) {
-			valor = valor + valorDia;
-		} else {
-			valor = valor + (horas * valorHora);
-		}
-		
-		return valor;
-		
-	}
-	
-	private boolean esAltoCilindraje(VehiculoEntity vehiculo) {
-		
-		return (vehiculo.getTipoVehiculo().getTieneCilindraje()
-				&& vehiculo.getCilindraje() > vehiculo.getTipoVehiculo().getAltoCilindraje());
 		
 	}
 	

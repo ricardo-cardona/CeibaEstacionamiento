@@ -7,16 +7,23 @@ import parqueadero.parqueadero.dominio.Vehiculo;
 
 public class IngresoParqueaderoTestDataBuilder {
 	
+	Long id;
 	private Vehiculo vehiculo;
 	private Calendar fechaInicio;
 	private Calendar fechaFin;
 	private double valor;
 	
 	public IngresoParqueaderoTestDataBuilder() {
+		this.id = 1L;
 		this.vehiculo = new VehiculoTestDataBuilder().build();
 		this.fechaInicio = Calendar.getInstance();
 		this.fechaFin = null;
 		this.valor = 0;
+	}
+	
+	public IngresoParqueaderoTestDataBuilder conId(Long id) {
+		this.id = id;
+		return this;
 	}
 	
 	public IngresoParqueaderoTestDataBuilder conVehiculo(Vehiculo vehiculo) {
@@ -41,7 +48,10 @@ public class IngresoParqueaderoTestDataBuilder {
 	
 	public IngresoParqueadero build() {
 		
-		return new IngresoParqueadero(this.vehiculo, this.fechaInicio, this.fechaFin, this.valor);
+		IngresoParqueadero ingreso = new IngresoParqueadero(this.vehiculo, this.fechaInicio, this.fechaFin, this.valor);
+		ingreso.setId(this.id);
+		
+		return ingreso;
 		
 	}
 	

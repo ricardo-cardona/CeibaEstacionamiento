@@ -25,7 +25,7 @@ public class ReglaCambioAtributosVehiculo implements ReglaNegocio {
 			return true;
 		}
 		
-		if (vehiculo.getTipoVehiculo().getId() != vehiculoRegistrado.getTipoVehiculo().getId()) {
+		if (!vehiculo.getTipoVehiculo().getId().equals(vehiculoRegistrado.getTipoVehiculo().getId())) {
 			setMensaje(CAMBIO_TIPO_VEHICULO);
 			return false;
 		}

@@ -15,12 +15,16 @@ import parqueadero.parqueadero.persistencia.entidad.IngresoParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEnParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.servicio.IngresoParqueaderoServicio;
+import parqueadero.parqueadero.servicio.SalidaParqueaderoServicio;
 
 @RestController
 public class IngresoParqueaderoControlador {
 	
 	@Autowired
 	private IngresoParqueaderoServicio ingresoParqueaderoServicio;
+	
+	@Autowired
+	private SalidaParqueaderoServicio salidaParqueaderoServicio;
 	
 	@PostMapping("/ingresos")
 	public ResponseEntity<Object> registrarIngresoVehiculo(@RequestBody VehiculoEntity vehiculo) {
@@ -45,13 +49,12 @@ public class IngresoParqueaderoControlador {
 	@PutMapping("/salidas/{ingreso}")
 	public ResponseEntity<Object> registrarSalidaParqueadero(@PathVariable Long ingreso) {
 		
-		IngresoParqueaderoEntity ingresoRegistrado = ingresoParqueaderoServicio.consultarIngreso(ingreso);
-		ingresoParqueaderoServicio.registrarSalidaParqueadero(ingresoRegistrado);
+		IngresoParqueaderoEntity ingresoActualizado = salidaParqueaderoServicio.registrarSalidaParqueadero(ingreso);
 		
-		if (ingresoRegistrado == null) {
-			return ResponseEntity.badRequest().header("Error", "10").body(ingresoRegistrado);
+		if (ingresoActualizado == null) {
+			return ResponseEntity.badRequest().header("Error", "10").body(ingresoActualizado);
 		} else {
-			return ResponseEntity.ok().body(ingresoRegistrado);
+			return ResponseEntity.ok().body(ingresoActualizado);
 		}
 		
 	}
