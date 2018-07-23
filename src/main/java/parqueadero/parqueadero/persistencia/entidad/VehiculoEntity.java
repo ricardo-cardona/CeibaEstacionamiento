@@ -10,6 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "VEHICULO")
 public class VehiculoEntity {
@@ -24,6 +29,9 @@ public class VehiculoEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_TIPO_VEHICULO", nullable = false)
+	@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+	@JsonIdentityReference(alwaysAsId=true)
+	@JsonProperty("tipoVehiculo")
 	private TipoVehiculoEntity tipoVehiculo;
 	
 	@Column(name = "CILINDRAJE", nullable = true)

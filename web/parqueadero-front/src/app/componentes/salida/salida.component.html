@@ -1,0 +1,112 @@
+<div class="container">
+
+  <div class="panel panel-primary">
+    
+      <div class="panel-heading"><h2>Salida de parqueadero</h2></div>
+      
+      <div class="panel-body">
+
+        <form id="salida" #salidaForm="ngForm">
+
+          <div class="form-group">
+            <div class="row">
+              <label for="placa">Placa:</label>
+            </div>
+            <div class="row">
+              <input type="text"
+                id="placa"
+                name="placa"
+                value="{{parqueado.placa}}"
+                disabled />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="tipo">Tipo de Veh&iacute;culo: </label>
+            </div>
+            <div class="row">
+              <input type="text"
+                id="tipo"
+                name="tipo"
+                value="{{parqueado.tipo}}"
+                disabled />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="fechaIngreso">Fecha de Ingreso: </label>
+            </div>
+            <div class="row">
+              <input type="text"
+                id="fechaIngreso"
+                name="fechaIngreso"
+                value="{{parqueado.fechaIngreso | date:'dd/MM/yyyy hh:mm:ss.sss'}}"
+                disabled />
+            </div>
+          </div>
+
+          <!--
+          <button type="submit"
+            class="btn btn-success"
+            (click)="registrarSalida()">Registrar Salida</button>
+          -->
+
+          <button type="button"
+            class="btn btn-info btn-lg"
+            data-toggle="modal"
+            data-target="#modalSalida"
+            (click)="registrarSalida()">Registrar Salida</button>
+
+          <!--
+            <div class="form-group">
+            <div class="row">
+              <label for="valor">Valor a pagar: </label>
+            </div>
+            <div class="row">
+              <input type="text"
+                id="valor"
+                name="valor"
+                value="{{salida.valor}}"
+                disabled />
+            </div>
+          </div>
+          -->
+
+        </form>
+
+      </div>
+
+    </div>
+
+</div>
+
+
+<!--Modal-->
+<div id="modalSalida" class="modal fade" role="dialog">
+  
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        Salida exitosa!
+      </div>
+
+      <div class="modal-body">
+        <p>Se registr&oacute; la salida del veh&iacute;culo con placa {{salida.placa}}</p>
+        <p>Fecha de ingreso: {{salida.fechaInicio | date:"dd/MM/yyyy hh:mm:ss.sss"}}</p>
+        <p>Fecha de salida: {{salida.fechaSalida | date:"dd/MM/yyyy hh:mm:ss.sss"}}</p>
+        <p>Valor a pagar: {{salida.valor}}</p>
+      </div>
+
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

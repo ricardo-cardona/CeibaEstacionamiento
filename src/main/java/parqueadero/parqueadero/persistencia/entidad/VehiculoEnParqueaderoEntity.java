@@ -9,6 +9,7 @@ import javax.persistence.Id;
 public class VehiculoEnParqueaderoEntity {
 	
 	@Id
+	private int id;
 	private String placa;
 	private String tipo;
 	private Calendar fechaIngreso;
@@ -17,10 +18,19 @@ public class VehiculoEnParqueaderoEntity {
 		super();
 	}
 	
-	public VehiculoEnParqueaderoEntity(String placa, String tipo, Calendar fechaIngreso) {
+	public VehiculoEnParqueaderoEntity(int id, String placa, String tipo, Calendar fechaIngreso) {
+		this.id = id;
 		this.placa = placa;
 		this.tipo = tipo;
 		this.fechaIngreso = fechaIngreso;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getPlaca() {

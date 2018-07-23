@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.servicio.IngresoParqueaderoServicio;
 import parqueadero.parqueadero.servicio.SalidaParqueaderoServicio;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class IngresoParqueaderoControlador {
 	
@@ -36,6 +38,13 @@ public class IngresoParqueaderoControlador {
 		} else {
 			return ResponseEntity.ok().body(ingresoRegistrado);
 		}
+		
+	}
+	
+	@GetMapping("/ingresos/{ingreso}")
+	public VehiculoEnParqueaderoEntity consultarIngreso(@PathVariable Long ingreso) {
+		
+		return ingresoParqueaderoServicio.consultarVehiculoEnParqueadero(ingreso);
 		
 	}
 	

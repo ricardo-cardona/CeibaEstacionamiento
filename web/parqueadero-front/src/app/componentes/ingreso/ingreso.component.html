@@ -1,0 +1,58 @@
+<div class="container">
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading"><h2>Ingreso a parqueadero</h2></div>
+
+    <div class="panel-body">
+
+      <form id="ingreso" #ingresoForm="ngForm">
+
+        <div class="form-group">
+          <div class="row">
+            <label for="tiposVehiculo">Tipo de Veh&iacute;culo: </label>
+          </div>
+          <div class="row">
+            <select #TipoVehiculo
+              id="tiposVehiculo"
+              (change)="onSelect(TipoVehiculo.value)"
+              required>
+              <option *ngFor="let tipoVehiculo of tiposVehiculo"
+                value="{{tipoVehiculo.id}}">
+                {{tipoVehiculo.nombre}}
+              </option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="row">
+            <label for="placa">Placa: </label>
+          </div>
+          <div class="row">
+            <input #Placa id="placa" type="text" required />
+          </div>
+        </div>
+
+        <div class="form-group"
+          [hidden]="!tipoSeleccionado.tieneCilindraje">
+          <div class="row">
+            <label for="cilindraje">Cilindraje: </label>
+          </div>
+          <div class="row">
+            <input #Cilindraje id="cilindraje" type="number" />
+          </div>
+        </div>
+
+        <button id="registrarIngreso"
+          type="submit"
+          class="btn btn-success"
+          (click)="registrarIngreso(TipoVehiculo.value, Placa.value, Cilindraje.value)">Registrar Ingreso</button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

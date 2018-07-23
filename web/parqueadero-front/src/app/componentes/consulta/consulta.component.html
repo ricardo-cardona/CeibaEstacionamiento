@@ -1,0 +1,36 @@
+<div class="container">
+
+  <div class="panel panel-primary">
+    
+    <div class="panel-heading"><h2>Veh&iacute;culos en parqueadero</h2></div>
+
+    <div class="panel-body">
+
+      <table id="vehiculosParqueados"
+        class="table table-bordered table-striped table-hover">
+
+        <thead>
+          <th hidden>Id</th>
+          <th>Placa</th>
+          <th>Tipo de Veh&iacute;culo</th>
+          <th>Fecha de Ingreso</th>
+          <th>Registrar Salida</th>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let vehiculo of vehiculosParqueados">
+            <td hidden>{{vehiculo.id}}</td>
+            <td>{{vehiculo.placa}}</td>
+            <td>{{vehiculo.tipo}}</td>
+            <td>{{vehiculo.fechaIngreso | date:"dd/MM/yyyy hh:mm:ss.sss"}}</td>
+            <td><a routerLink="{{salidaUrl}}/{{vehiculo.id}}">Salida -></a></td>
+          </tr>
+        </tbody>
+        
+      </table>
+    
+    </div>
+
+  </div>
+
+</div>

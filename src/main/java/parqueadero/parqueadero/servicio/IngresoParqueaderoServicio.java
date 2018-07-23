@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import parqueadero.parqueadero.negocio.ReglaCambioAtributosVehiculo;
 import parqueadero.parqueadero.negocio.ReglaCilindraje;
@@ -22,6 +23,7 @@ import parqueadero.parqueadero.persistencia.repositorio.IngresoParqueaderoReposi
 import parqueadero.parqueadero.persistencia.repositorio.VehiculoEnParqueaderoRepositorio;
 
 @Service
+@CrossOrigin(origins = "http://localhost:4200")
 public class IngresoParqueaderoServicio {
 	
 	@Autowired
@@ -76,6 +78,12 @@ public class IngresoParqueaderoServicio {
 	public List<VehiculoEnParqueaderoEntity> consultarVehiculosEnParqueadero() {
 		
 		return vehiculoEnParqueaderoRepositorio.vehiculosEnParqueadero();
+		
+	}
+	
+	public VehiculoEnParqueaderoEntity consultarVehiculoEnParqueadero(Long ingreso) {
+		
+		return vehiculoEnParqueaderoRepositorio.vehiculoEnParqueadero(ingreso);
 		
 	}
 	
