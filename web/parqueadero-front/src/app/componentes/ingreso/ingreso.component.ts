@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { Vehiculo } from '../../objetos/vehiculo';
 import { ParqueaderoService } from '../../servicios/parqueadero.service';
 import { TipoVehiculo } from '../../objetos/tipoVehiculo';
@@ -12,12 +15,16 @@ export class IngresoComponent implements OnInit {
 
   tiposVehiculo: TipoVehiculo[];
   tipoSeleccionado: TipoVehiculo = new TipoVehiculo();
+  msgSuccess: string = 'El ingreso al parqueadero se ha registrado exitosamente.';
+  msgError: string;
   
-  constructor(private parqueaderoService: ParqueaderoService) { }
+  constructor(
+      private parqueaderoService: ParqueaderoService
+    , private modalService: NgbModal
+  ) { }
 
   ngOnInit() {
     this.getTiposVehiculo();
-    //this.tipoSeleccionado = this.tiposVehiculo[0];
   }
 
   getTiposVehiculo(): void {
@@ -30,35 +37,33 @@ export class IngresoComponent implements OnInit {
     var vehiculo: Vehiculo = {
         id: 0
       , placa: placa
-      , tipoVehiculo: this.tipoSeleccionado
+      , tipoVehiculo: (this.tipoSeleccionado.id ? this.tipoSeleccionado : this.tiposVehiculo[0])
       , cilindraje: (this.tipoSeleccionado.tieneCilindraje ? cilindraje : 0)
     };
     
-    /*alert(
-      'Tipo: ' + vehiculo.tipoVehiculo.id +
-      'Placa: ' + vehiculo.placa +
-      'Cilindraje: ' + vehiculo.cilindraje
-    );*/
-
     this.parqueaderoService.registrarIngreso(vehiculo)
-      .subscribe();
+      .subscribe(
+          data => console.log(data)
+        , err => this.msgError = err.error.message
+      );
 
   }
 
-  convertirATipoVehiculo(id: number): TipoVehiculo {
-    var tipoVehiculo: TipoVehiculo = {
-        id: 1
-      , nombre: null
-      , tieneCilindraje: null
-    };
+  mostrarModal(content): void {
+    var modal = this.modalService.open(content, { centered: true });
+    modal.result.then(
+      () => this.refrescar(),
+      () => this.refrescar()
+    );
+  }
 
-    return tipoVehiculo;
+  refrescar(): void {
+    window.location.reload();
   }
 
   onSelect(tipoEscogido: string): void {
     this.tipoSeleccionado = this.tiposVehiculo
       .find(tipo => tipo.id == +tipoEscogido);
-    //alert('Seleccionado: ' + this.tipoSeleccionado.nombre);
   }
 
 }

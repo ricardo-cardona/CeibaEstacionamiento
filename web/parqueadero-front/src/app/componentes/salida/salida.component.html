@@ -53,11 +53,17 @@
             (click)="registrarSalida()">Registrar Salida</button>
           -->
 
+          <!--
           <button type="button"
             class="btn btn-info btn-lg"
             data-toggle="modal"
             data-target="#modalSalida"
             (click)="registrarSalida()">Registrar Salida</button>
+          -->
+
+          <button type="button"
+            class="btn btn-success"
+            (click)="registrarSalida(); mostrarModal(content)">Registrar Salida</button>
 
           <!--
             <div class="form-group">
@@ -84,29 +90,32 @@
 
 
 <!--Modal-->
-<div id="modalSalida" class="modal fade" role="dialog">
-  
-  <div class="modal-dialog">
+<ng-template #content let-c="close" let-d="dismiss">
 
-    <div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Salida exitosa</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 
-      <div class="modal-header">
-        Salida exitosa!
-      </div>
+  <div class="modal-body">
 
-      <div class="modal-body">
-        <p>Se registr&oacute; la salida del veh&iacute;culo con placa {{salida.placa}}</p>
-        <p>Fecha de ingreso: {{salida.fechaInicio | date:"dd/MM/yyyy hh:mm:ss.sss"}}</p>
-        <p>Fecha de salida: {{salida.fechaSalida | date:"dd/MM/yyyy hh:mm:ss.sss"}}</p>
-        <p>Valor a pagar: {{salida.valor}}</p>
-      </div>
+    <div *ngIf="!msgError" class="alert alert-success">
+      <p>Se registr&oacute; exitosamente la salida del veh&iacute;culo con placa {{parqueado.placa}}</p>
+      <p>Fecha de ingreso: {{salida.fechaInicio | date:"dd/MM/yyyy hh:mm:ss.sss"}}</p>
+      <p>Fecha de salida: {{salida.fechaFin | date:"dd/MM/yyyy hh:mm:ss.sss"}}</p>
+      <p><b>Valor a pagar: {{salida.valor}}</b></p>
+    </div>
 
-      <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
-      </div>
-
+    <div *ngIf="msgError" class="alert alert-danger">
+      <p>{{msgError}}</p>
     </div>
 
   </div>
 
-</div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="c('Close click')">Aceptar</button>
+  </div>
+
+</ng-template>

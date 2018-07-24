@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { ParqueaderoService } from '../../servicios/parqueadero.service';
 import { VehiculoParqueado } from '../../objetos/vehiculoParqueado';
 import { Salida } from '../../objetos/salida';
@@ -16,9 +19,13 @@ export class SalidaComponent implements OnInit {
   parqueado: VehiculoParqueado;
   salida: Salida;
 
+  msgError: string;
+
   constructor(
       private route: ActivatedRoute
+    , private router: Router
     , private parqueaderoService: ParqueaderoService
+    , private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -27,27 +34,40 @@ export class SalidaComponent implements OnInit {
 
   getId(): void {
     this.id = +this.route.snapshot.paramMap.get('id');
-    //aqui se podria obtener la informacion del
-    //ingreso (tipo vehiculo y fecha inicio) a partir de su id
-    alert('Id: ' + this.id);
     this.getIngreso();
   }
 
   getIngreso(): void {
-    //debugger
     this.parqueaderoService.getIngreso(this.id)
       .subscribe(parqueado => this.parqueado = parqueado);
       
   }
 
   registrarSalida(): void {
-    alert('Id: ' + this.id);
     this.parqueaderoService.registrarSalida(this.id)
-      .subscribe(salida => alert(
-        'Valor a pagar: ' + salida.valor
-      ));
-      //.subscribe(salida => this.salida = salida);
-    //alert('Id Salida: ' + this.salida.id);
+      .subscribe(
+          salida => this.salida = salida
+        , err => {
+          this.msgError = err.error.message;
+        }
+      );
+  }
+
+  mostrarModal(content): void {
+    var modal = this.modalService.open(content, { centered: true });
+    modal.result.then(
+      () => this.redirigir(),
+      () => this.redirigir()
+    );
+  }
+
+  redirigir(): void {
+    this.router.navigate(['/']);
+    this.refrescar();
+  }
+
+  refrescar(): void {
+    window.location.reload();
   }
 
 }

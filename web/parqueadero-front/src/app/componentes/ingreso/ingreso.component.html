@@ -47,7 +47,7 @@
         <button id="registrarIngreso"
           type="submit"
           class="btn btn-success"
-          (click)="registrarIngreso(TipoVehiculo.value, Placa.value, Cilindraje.value)">Registrar Ingreso</button>
+          (click)="registrarIngreso(Placa.value, Cilindraje.value); mostrarModal(content)">Registrar Ingreso</button>
 
       </form>
 
@@ -56,3 +56,29 @@
   </div>
 
 </div>
+
+
+<!--Modal-->
+<ng-template #content let-c="close" let-d="dismiss">
+
+  <div class="modal-header">
+    <h4 class="modal-title">Ingreso a parqueadero</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div *ngIf="!msgError" class="alert alert-success">
+      <p>{{msgSuccess}}</p>
+    </div>
+    <div *ngIf="msgError" class="alert alert-danger">
+      <p>{{msgError}}</p>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="c('Close click')">Aceptar</button>
+  </div>
+
+</ng-template>

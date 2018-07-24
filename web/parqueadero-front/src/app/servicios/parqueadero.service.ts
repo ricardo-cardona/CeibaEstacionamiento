@@ -48,11 +48,12 @@ export class ParqueaderoService {
   /** POST: registra el ingreso del vehiculo al parqueadero */
   registrarIngreso (vehiculo: Vehiculo): Observable<any> {
     return this.http.post<Vehiculo>(this.ingresoUrl, vehiculo, httpOptions)
-      .pipe(
+      /*.pipe(
         catchError(err => {
+          console.log('Error en ingreso: ' + err.error.message);
           throw 'Error ' + err
         })
-      );
+      )*/;
   }
 
   /** GET vehiculos parqueados */
@@ -68,7 +69,6 @@ export class ParqueaderoService {
   /** GET ingreso a parqueadero particular */
   getIngreso(id: number): Observable<VehiculoParqueado> {
     const url = `${this.ingresoUrl}/${id}`;
-    alert('URL: ' + url);
     return this.http.get<VehiculoParqueado>(url)
       .pipe(
         catchError(err => {
@@ -80,11 +80,11 @@ export class ParqueaderoService {
   /** PUT: registra la salida del vehiculo al parqueadero */
   registrarSalida (id: number): Observable<Salida> {
     return this.http.put<Salida>(this.salidaUrl + '/' + id, +id, httpOptions)
-      .pipe(
+      /*.pipe(
         catchError(err => {
           throw 'Error ' + err
         })
-      );
+      )*/;
   }
 
 }

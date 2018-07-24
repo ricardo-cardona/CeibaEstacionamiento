@@ -47,7 +47,7 @@ public class ReglaCambioAtributosVehiculo implements ReglaNegocio {
 		return mensaje;
 	}
 	
-	public void setMensaje(String mensaje) {
+	private void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
 
