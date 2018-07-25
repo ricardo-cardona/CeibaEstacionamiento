@@ -20,16 +20,8 @@ public class Vehiculo {
 		return tipoVehiculo;
 	}
 
-	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
-		this.tipoVehiculo = tipoVehiculo;
-	}
-
 	public int getCilindraje() {
 		return cilindraje;
-	}
-
-	public void setCilindraje(int cilindraje) {
-		this.cilindraje = cilindraje;
 	}
 	
 }

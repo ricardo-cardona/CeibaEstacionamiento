@@ -29,32 +29,16 @@ public class IngresoParqueadero {
 		return vehiculo;
 	}
 
-	public void setVehiculo(Vehiculo vehiculo) {
-		this.vehiculo = vehiculo;
-	}
-
 	public Calendar getFechaInicio() {
 		return fechaInicio;
-	}
-
-	public void setFechaInicio(Calendar fechaInicio) {
-		this.fechaInicio = fechaInicio;
 	}
 
 	public Calendar getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(Calendar fechaFin) {
-		this.fechaFin = fechaFin;
-	}
-
 	public double getValor() {
 		return valor;
-	}
-
-	public void setValor(double valor) {
-		this.valor = valor;
 	}
 	
 }
