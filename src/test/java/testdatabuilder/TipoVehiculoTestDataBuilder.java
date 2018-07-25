@@ -65,8 +65,14 @@ public class TipoVehiculoTestDataBuilder {
 	}
 	
 	public TipoVehiculo build() {
-		return new TipoVehiculo(this.id, this.nombre, this.capacidadMaxima, this.valorHora, this.valorDia
+		
+		TipoVehiculo tipoVehiculo = new TipoVehiculo(this.nombre, this.capacidadMaxima, this.valorHora, this.valorDia
 			, this.tieneCilindraje, this.altoCilindraje, this.valorAdicionalCilindraje);
+		
+		tipoVehiculo.setId(this.id);
+		
+		return tipoVehiculo;
+		
 	}
 	
 }

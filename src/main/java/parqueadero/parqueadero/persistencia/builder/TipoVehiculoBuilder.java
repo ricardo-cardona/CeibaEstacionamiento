@@ -9,22 +9,25 @@ public final class TipoVehiculoBuilder {
 		
 	}
 	
-	public static TipoVehiculo convertirADominio(TipoVehiculoEntity tipoVehiculo) {
+	public static TipoVehiculo convertirADominio(TipoVehiculoEntity tipoVehiculoEntity) {
 		
-		if (tipoVehiculo == null) {
+		if (tipoVehiculoEntity == null) {
 			return null;
 		}
 		
-		return new TipoVehiculo(
-				  tipoVehiculo.getId()
-				, tipoVehiculo.getNombre()
-				, tipoVehiculo.getCapacidadMaxima()
-				, tipoVehiculo.getValorHora()
-				, tipoVehiculo.getValorDia()
-				, tipoVehiculo.getTieneCilindraje()
-				, tipoVehiculo.getAltoCilindraje()
-				, tipoVehiculo.getValorAdicionalCilindraje()
+		TipoVehiculo tipoVehiculo = new TipoVehiculo(
+				  tipoVehiculoEntity.getNombre()
+				, tipoVehiculoEntity.getCapacidadMaxima()
+				, tipoVehiculoEntity.getValorHora()
+				, tipoVehiculoEntity.getValorDia()
+				, tipoVehiculoEntity.getTieneCilindraje()
+				, tipoVehiculoEntity.getAltoCilindraje()
+				, tipoVehiculoEntity.getValorAdicionalCilindraje()
 		);
+		
+		tipoVehiculo.setId(tipoVehiculoEntity.getId());
+		
+		return tipoVehiculo;
 		
 	}
 	

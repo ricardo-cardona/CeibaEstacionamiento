@@ -3,18 +3,21 @@ package parqueadero.parqueadero.negocio;
 import parqueadero.parqueadero.dominio.Vehiculo;
 import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 
-public class ReglaCilindraje implements ReglaNegocio {
+public class ReglaCilindraje implements ReglaIngreso {
 	
-	private static final String CILINDRAJE_INVALIDO = "El cilindraje es inválido de acuerdo al tipo de vehículo.";
+	public static final String CILINDRAJE_INVALIDO = "El cilindraje es inválido de acuerdo al tipo de vehículo.";
 	
-	public boolean verificarRegla(Vehiculo vehiculo) {
+	public void verificarRegla(Vehiculo vehiculo) {
 
-		return (vehiculo.getTipoVehiculo().getTieneCilindraje() ? vehiculo.getCilindraje() > 0 : vehiculo.getCilindraje() == 0);
+		if (vehiculo.getTipoVehiculo().getTieneCilindraje() && vehiculo.getCilindraje() <= 0
+			|| !vehiculo.getTipoVehiculo().getTieneCilindraje() && vehiculo.getCilindraje() > 0) {
+			mostrarMensaje(CILINDRAJE_INVALIDO);
+		}
 		
 	}
 	
-	public void mostrarMensaje() {
-		throw new IngresoParqueaderoExcepcion(CILINDRAJE_INVALIDO);
+	public void mostrarMensaje(String mensaje) {
+		throw new IngresoParqueaderoExcepcion(mensaje);
 	}
 	
 }

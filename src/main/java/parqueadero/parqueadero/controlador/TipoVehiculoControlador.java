@@ -18,7 +18,7 @@ public class TipoVehiculoControlador {
 	private TipoVehiculoServicio tipoVehiculoServicio;
 	
 	@GetMapping("/tipos")
-	public List<TipoVehiculoEntity> consultarVehiculos() {
+	public List<TipoVehiculoEntity> consultarTiposDeVehiculo() {
 		
 		return tipoVehiculoServicio.consultarTiposDeVehiculo();
 		

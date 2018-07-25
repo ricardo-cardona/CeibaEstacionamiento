@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.persistencia.repositorio.VehiculoRepositorio;
+import parqueadero.parqueadero.servicio.implementacion.VehiculoServicioImpl;
 import testdatabuilder.VehiculoEntityTestDataBuilder;
 
 @RunWith(SpringRunner.class)
@@ -32,7 +33,7 @@ public class VehiculoServicioTest {
 		
         @Bean
         public VehiculoServicio vehiculoServicio() {
-            return new VehiculoServicio();
+            return new VehiculoServicioImpl();
         }
         
     }

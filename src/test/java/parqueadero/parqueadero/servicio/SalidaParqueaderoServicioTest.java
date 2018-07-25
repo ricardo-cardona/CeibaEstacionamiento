@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import parqueadero.parqueadero.persistencia.entidad.IngresoParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.repositorio.IngresoParqueaderoRepositorio;
+import parqueadero.parqueadero.servicio.implementacion.SalidaParqueaderoServicioImpl;
 import testdatabuilder.IngresoParqueaderoEntityTestDataBuilder;
 
 @RunWith(SpringRunner.class)
@@ -26,13 +27,16 @@ public class SalidaParqueaderoServicioTest {
 		
         @Bean
         public SalidaParqueaderoServicio salidaParqueaderoServicio() {
-            return new SalidaParqueaderoServicio();
+            return new SalidaParqueaderoServicioImpl();
         }
         
     }
  
     @Autowired
     private SalidaParqueaderoServicio salidaParqueaderoServicio;
+    
+    @MockBean
+    private IngresoParqueaderoServicio ingresoParqueaderoServicio;
     
     @MockBean
     private IngresoParqueaderoRepositorio ingresoParqueaderoRepositorio;
@@ -49,11 +53,13 @@ public class SalidaParqueaderoServicioTest {
 		IngresoParqueaderoEntity ingreso = new IngresoParqueaderoEntityTestDataBuilder()
 				.conFechaInicio(fechaInicio)
 				.conFechaFin(null)
+				.conValor(0)
 				.build();
 		
 		Optional<IngresoParqueaderoEntity> optIngreso = Optional.of(ingreso);
 		
-		when(ingresoParqueaderoRepositorio.findById(ingreso.getId())).thenReturn(optIngreso);
+		//when(ingresoParqueaderoRepositorio.findById(ingreso.getId())).thenReturn(optIngreso);
+		when(ingresoParqueaderoServicio.consultarIngreso(ingreso.getId())).thenReturn(ingreso);
 		//when(ingresoParqueaderoRepositorio.save(any())).thenReturn(new IngresoParqueaderoEntityTestDataBuilder().build());
 		
 		//act

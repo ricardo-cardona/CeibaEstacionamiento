@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 
 import parqueadero.parqueadero.dominio.Vehiculo;
+import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.servicio.VehiculoServicio;
 import testdatabuilder.VehiculoTestDataBuilder;
@@ -28,10 +29,13 @@ public class ReglaVehiculoEnParqueaderoTest {
 		when(vehiculoServicio.vehiculoEstaEnParqueadero(vehiculo.getPlaca())).thenReturn(vehiculoEntity);
 		
 		//act
-		boolean resultado = regla.verificarRegla(vehiculo);
-		
-		//assert
-		assertFalse(resultado);
+		try {
+			regla.verificarRegla(vehiculo);
+			fail();
+		} catch(IngresoParqueaderoExcepcion e) {
+			//assert
+			assertEquals(ReglaVehiculoEnParqueadero.VEHICULO_YA_ESTA_EN_PARQUEADERO, e.getMessage());
+		}
 		
 	}
 
@@ -48,10 +52,15 @@ public class ReglaVehiculoEnParqueaderoTest {
 		when(vehiculoServicio.vehiculoEstaEnParqueadero(vehiculo.getPlaca())).thenReturn(null);
 		
 		//act
-		boolean resultado = regla.verificarRegla(vehiculo);
+		try {
+			regla.verificarRegla(vehiculo);
+		} catch(IngresoParqueaderoExcepcion e) {
+			//fail
+			fail();
+		}
 		
 		//assert
-		assertTrue(resultado);
+		assertTrue(true);
 		
 	}
 

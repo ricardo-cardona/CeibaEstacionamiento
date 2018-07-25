@@ -29,6 +29,7 @@ import parqueadero.parqueadero.persistencia.entidad.VehiculoEnParqueaderoEntity;
 import parqueadero.parqueadero.persistencia.entidad.VehiculoEntity;
 import parqueadero.parqueadero.persistencia.repositorio.IngresoParqueaderoRepositorio;
 import parqueadero.parqueadero.persistencia.repositorio.VehiculoEnParqueaderoRepositorio;
+import parqueadero.parqueadero.servicio.implementacion.IngresoParqueaderoServicioImpl;
 import testdatabuilder.IngresoParqueaderoEntityTestDataBuilder;
 import testdatabuilder.TipoVehiculoEntityTestDataBuilder;
 import testdatabuilder.VehiculoEntityTestDataBuilder;
@@ -47,7 +48,7 @@ public class IngresoParqueaderoServicioTest {
 		
         @Bean
         public IngresoParqueaderoServicio ingresoParqueaderoServicio() {
-            return new IngresoParqueaderoServicio();
+            return new IngresoParqueaderoServicioImpl();
         }
         
     }

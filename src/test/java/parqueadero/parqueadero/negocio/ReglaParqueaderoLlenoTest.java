@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import parqueadero.parqueadero.dominio.TipoVehiculo;
 import parqueadero.parqueadero.dominio.Vehiculo;
+import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 import parqueadero.parqueadero.persistencia.repositorio.IngresoParqueaderoRepositorio;
 import testdatabuilder.TipoVehiculoTestDataBuilder;
 import testdatabuilder.VehiculoTestDataBuilder;
@@ -36,10 +37,13 @@ public class ReglaParqueaderoLlenoTest {
 		when(ingresoParqueaderoRepositorio.cantidadTipoVehiculoEnParqueadero(vehiculo.getTipoVehiculo().getId())).thenReturn(CAPACIDAD_MAXIMA);
 		
 		//act
-		boolean resultado = regla.verificarRegla(vehiculo);
-		
-		//assert
-		assertFalse(resultado);
+		try {
+			regla.verificarRegla(vehiculo);
+			fail();
+		} catch(IngresoParqueaderoExcepcion e) {
+			//assert
+			assertEquals(ReglaParqueaderoLleno.PARQUEADERO_LLENO, e.getMessage());
+		}
 		
 	}
 
@@ -62,10 +66,15 @@ public class ReglaParqueaderoLlenoTest {
 		when(ingresoParqueaderoRepositorio.cantidadTipoVehiculoEnParqueadero(vehiculo.getTipoVehiculo().getId())).thenReturn(DENTRO_DE_LA_CAPACIDAD);
 		
 		//act
-		boolean resultado = regla.verificarRegla(vehiculo);
+		try {
+			regla.verificarRegla(vehiculo);
+		} catch(IngresoParqueaderoExcepcion e) {
+			//fail
+			fail();
+		}
 		
 		//assert
-		assertTrue(resultado);
+		assertTrue(true);
 		
 	}
 

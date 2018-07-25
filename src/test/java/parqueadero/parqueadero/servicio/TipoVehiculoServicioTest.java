@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import parqueadero.parqueadero.excepcion.TipoVehiculoExcepcion;
 import parqueadero.parqueadero.persistencia.entidad.TipoVehiculoEntity;
 import parqueadero.parqueadero.persistencia.repositorio.TipoVehiculoRepositorio;
+import parqueadero.parqueadero.servicio.implementacion.TipoVehiculoServicioImpl;
 import testdatabuilder.TipoVehiculoEntityTestDataBuilder;
 
 @RunWith(SpringRunner.class)
@@ -34,7 +35,7 @@ public class TipoVehiculoServicioTest {
 		
         @Bean
         public TipoVehiculoServicio tipoVehiculoServicio() {
-            return new TipoVehiculoServicio();
+            return new TipoVehiculoServicioImpl();
         }
         
     }
@@ -57,7 +58,7 @@ public class TipoVehiculoServicioTest {
 			fail();
 		} catch(TipoVehiculoExcepcion e) {
 			//assert
-			assertEquals(TipoVehiculoServicio.SIN_TIPO_VEHICULO, e.getMessage());
+			assertEquals(TipoVehiculoServicioImpl.SIN_TIPO_VEHICULO, e.getMessage());
 		}
 		
 	}
@@ -76,7 +77,7 @@ public class TipoVehiculoServicioTest {
 			fail();
 		} catch(TipoVehiculoExcepcion e) {
 			//assert
-			assertEquals(TipoVehiculoServicio.TIPO_VEHICULO_INCORRECTO, e.getMessage());
+			assertEquals(TipoVehiculoServicioImpl.TIPO_VEHICULO_INCORRECTO, e.getMessage());
 		}
 		
 	}

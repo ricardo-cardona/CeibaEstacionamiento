@@ -7,32 +7,33 @@ import java.util.Calendar;
 import org.junit.Test;
 
 import parqueadero.parqueadero.dominio.Vehiculo;
+import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 import testdatabuilder.VehiculoTestDataBuilder;
 
-public class ReglaDiaHabilPlacaTest {
+public class ReglaPlacaTest {
 	
+	private static final String PLACA_VACIA = "";
 	private static final String PLACA_CON_A = "ABC-123";
 	private static final String PLACA_CON_X = "XYZ-789";
 	
 	@Test
-	public void PlacaConAEnDomingoTest() {
+	public void sinPlacaTest() {
 		
 		//arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder()
-				.conPlaca(PLACA_CON_A)
+				.conPlaca(PLACA_VACIA)
 				.build();
 		
-		Calendar calendar = Calendar.getInstance();
-		
-		calendar.set(2018, Calendar.JULY, 15, 0, 0, 0); // 2018/07/15 (Domingo)
-		
-		ReglaDiaHabilPlaca regla = new ReglaDiaHabilPlaca(calendar);
+		ReglaPlaca regla = new ReglaPlaca(Calendar.getInstance());
 		
 		//act
-		boolean resultado = regla.verificarRegla(vehiculo);
-		
-		//assert
-		assertTrue(resultado);
+		try {
+			regla.verificarRegla(vehiculo);
+			fail();
+		} catch(IngresoParqueaderoExcepcion e) {
+			//assert
+			assertEquals(ReglaPlaca.SIN_PLACA, e.getMessage());
+		}
 		
 	}
 	
@@ -48,13 +49,17 @@ public class ReglaDiaHabilPlacaTest {
 		
 		calendar.set(2018, Calendar.JULY, 16, 0, 0, 0); // 2018/07/16 (Lunes)
 		
-		ReglaDiaHabilPlaca regla = new ReglaDiaHabilPlaca(calendar);
+		ReglaPlaca regla = new ReglaPlaca(calendar);
 		
 		//act
-		boolean resultado = regla.verificarRegla(vehiculo);
+		try {
+			regla.verificarRegla(vehiculo);
+		} catch(IngresoParqueaderoExcepcion e) {
+			fail();
+		}
 		
 		//assert
-		assertTrue(resultado);
+		assertTrue(true);
 		
 	}
 	
@@ -70,13 +75,16 @@ public class ReglaDiaHabilPlacaTest {
 		
 		calendar.set(2018, Calendar.JULY, 18, 0, 0, 0); // 2018/07/18 (Miercoles)
 		
-		ReglaDiaHabilPlaca regla = new ReglaDiaHabilPlaca(calendar);
+		ReglaPlaca regla = new ReglaPlaca(calendar);
 		
 		//act
-		boolean resultado = regla.verificarRegla(vehiculo);
-		
-		//assert
-		assertFalse(resultado);
+		try {
+			regla.verificarRegla(vehiculo);
+			fail();
+		} catch(IngresoParqueaderoExcepcion e) {
+			//assert
+			assertEquals(ReglaPlaca.DIA_NO_HABIL_PLACA, e.getMessage());
+		}
 		
 	}
 	
@@ -88,13 +96,17 @@ public class ReglaDiaHabilPlacaTest {
 				.conPlaca(PLACA_CON_X)
 				.build();
 		
-		ReglaDiaHabilPlaca regla = new ReglaDiaHabilPlaca(Calendar.getInstance());
+		ReglaPlaca regla = new ReglaPlaca(Calendar.getInstance());
 		
 		//act
-		boolean resultado = regla.verificarRegla(vehiculo);
+		try {
+			regla.verificarRegla(vehiculo);
+		} catch(IngresoParqueaderoExcepcion e) {
+			fail();
+		}
 		
 		//assert
-		assertTrue(resultado);
+		assertTrue(true);
 		
 	}
 

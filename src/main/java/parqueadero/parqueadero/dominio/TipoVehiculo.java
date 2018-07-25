@@ -11,9 +11,8 @@ public class TipoVehiculo {
 	private int altoCilindraje;
 	private double valorAdicionalCilindraje;
 	
-	public TipoVehiculo(Long id, String nombre, int capacidadMaxima, double valorHora, double valorDia, boolean tieneCilindraje,
+	public TipoVehiculo(String nombre, int capacidadMaxima, double valorHora, double valorDia, boolean tieneCilindraje,
 			int altoCilindraje, double valorAdicionalCilindraje) {
-		this.id = id;
 		this.nombre = nombre;
 		this.capacidadMaxima = capacidadMaxima;
 		this.valorHora = valorHora;

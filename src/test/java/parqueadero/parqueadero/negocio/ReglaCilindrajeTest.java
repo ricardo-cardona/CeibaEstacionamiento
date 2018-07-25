@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import parqueadero.parqueadero.dominio.TipoVehiculo;
 import parqueadero.parqueadero.dominio.Vehiculo;
+import parqueadero.parqueadero.excepcion.IngresoParqueaderoExcepcion;
 import testdatabuilder.TipoVehiculoTestDataBuilder;
 import testdatabuilder.VehiculoTestDataBuilder;
 
@@ -30,10 +31,15 @@ public class ReglaCilindrajeTest {
 		ReglaCilindraje reglaCilindraje = new ReglaCilindraje();
 		
 		//act
-		boolean resultado = reglaCilindraje.verificarRegla(vehiculo);
+		try{
+			reglaCilindraje.verificarRegla(vehiculo);
+		} catch (IngresoParqueaderoExcepcion e) {
+			//fail
+			fail();
+		}
 		
 		//assert
-		assertTrue(resultado);
+		assertTrue(true);
 		
 	}
 
@@ -53,10 +59,15 @@ public class ReglaCilindrajeTest {
 		ReglaCilindraje reglaCilindraje = new ReglaCilindraje();
 		
 		//act
-		boolean resultado = reglaCilindraje.verificarRegla(vehiculo);
+		try{
+			reglaCilindraje.verificarRegla(vehiculo);
+		} catch (IngresoParqueaderoExcepcion e) {
+			//fail
+			fail();
+		}
 		
 		//assert
-		assertTrue(resultado);
+		assertTrue(true);
 		
 	}
 
@@ -76,10 +87,13 @@ public class ReglaCilindrajeTest {
 		ReglaCilindraje reglaCilindraje = new ReglaCilindraje();
 		
 		//act
-		boolean resultado = reglaCilindraje.verificarRegla(vehiculo);
-		
-		//assert
-		assertFalse(resultado);
+		try {
+			reglaCilindraje.verificarRegla(vehiculo);
+			fail();
+		} catch(IngresoParqueaderoExcepcion e) {
+			//assert
+			assertEquals(ReglaCilindraje.CILINDRAJE_INVALIDO, e.getMessage());
+		}
 		
 	}
 
@@ -99,10 +113,13 @@ public class ReglaCilindrajeTest {
 		ReglaCilindraje reglaCilindraje = new ReglaCilindraje();
 		
 		//act
-		boolean resultado = reglaCilindraje.verificarRegla(vehiculo);
-		
-		//assert
-		assertFalse(resultado);
+		try {
+			reglaCilindraje.verificarRegla(vehiculo);
+			fail();
+		} catch(IngresoParqueaderoExcepcion e) {
+			//assert
+			assertEquals(ReglaCilindraje.CILINDRAJE_INVALIDO, e.getMessage());
+		}
 		
 	}
 
