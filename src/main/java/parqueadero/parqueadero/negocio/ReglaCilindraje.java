@@ -9,8 +9,8 @@ public class ReglaCilindraje implements ReglaIngreso {
 	
 	public void verificarRegla(Vehiculo vehiculo) {
 
-		if (vehiculo.getTipoVehiculo().getTieneCilindraje() && vehiculo.getCilindraje() <= 0
-			|| !vehiculo.getTipoVehiculo().getTieneCilindraje() && vehiculo.getCilindraje() > 0) {
+		if ((vehiculo.getTipoVehiculo().getTieneCilindraje() && vehiculo.getCilindraje() <= 0)
+			|| (!vehiculo.getTipoVehiculo().getTieneCilindraje() && vehiculo.getCilindraje() > 0)) {
 			mostrarMensaje(CILINDRAJE_INVALIDO);
 		}
 		

@@ -18,22 +18,11 @@ const httpOptions = {
 export class ParqueaderoService {
 
   private tiposVehiculoUrl = 'http://localhost:8080/tipos';
-  private vehiculosUrl = 'http://localhost:8080/vehiculos';  // URL to web api
   private ingresoUrl = 'http://localhost:8080/ingresos';
   private vehiculosParqueadosUrl = 'http://localhost:8080/parqueados';
   private salidaUrl = 'http://localhost:8080/salidas';
 
   constructor(private http: HttpClient) { }
-
-  /** GET vehiculos from the server */
-  getVehiculos (): Observable<Vehiculo[]> {
-    return this.http.get<Vehiculo[]>(this.vehiculosUrl)
-      .pipe(
-        catchError(err => {
-          throw 'Error ' + err
-        })
-      );
-  }
 
   /** GET tipos de vehiculo from the server */
   getTiposVehiculo(): Observable<TipoVehiculo[]> {
